@@ -1,0 +1,45 @@
+var x = 10
+if x < 12 goto 4 //will have to give if statements another item(the goto number)
+else goto 6
+write "x is less than 12"
+goto 9
+write "x is greater than 12
+goto 9
+
+while x < 12 goto 12 //but this could just be an if statement, huh
+goto 15
+
+x = x + 1
+goto 9
+
+end
+
+
+
+**or**
+
+var x = 10
+if x < 12
+    write "x is less than 12"
+else if x > 12
+    write "x is greater than 12"
+else 
+    write "x is equal to 12"
+endif //hopefully this won't be necisarry forever
+
+while x < 12
+    x = x + 1
+    write x
+endwhile
+
+
+
+//maybe this
+var x = 10
+if x < 12
+    write "x is less than 12"
+else 
+    if x > 12
+        write "x is greater than 12"
+    else
+        write "x is equal to 12"

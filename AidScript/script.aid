@@ -1,0 +1,12 @@
+var age = 21
+
+if age > 20
+    write 'Youre older than 20!'
+else
+    if age == 20
+        write 'Youre 20!'
+    else
+        write 'Youre younger than 20!'
+    end
+end
+

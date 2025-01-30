@@ -1,0 +1,56 @@
+Date : 2025-01-29 12:32:12
+Directory : c:\Users\amp09\Desktop\AidScriptNew\AidScript
+Total : 21 files,  1048 codes, 46 comments, 109 blanks, all 1203 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| C#         |         12 |        831 |         46 |        105 |        982 |
+| JSON       |          5 |        179 |          0 |          0 |        179 |
+| XML        |          3 |         25 |          0 |          3 |         28 |
+| Properties |          1 |         13 |          0 |          1 |         14 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                               | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                  |         21 |      1,048 |         46 |        109 |      1,203 |
+| . (Files)                                                                                                          |         10 |        820 |         35 |        101 |        956 |
+| bin                                                                                                                |          2 |         35 |          0 |          0 |         35 |
+| bin\Debug                                                                                                          |          2 |         35 |          0 |          0 |         35 |
+| bin\Debug\net8.0                                                                                                   |          2 |         35 |          0 |          0 |         35 |
+| obj                                                                                                                |          9 |        193 |         11 |          8 |        212 |
+| obj (Files)                                                                                                        |          4 |        160 |          0 |          0 |        160 |
+| obj\Debug                                                                                                          |          5 |         33 |         11 |          8 |         52 |
+| obj\Debug\net8.0                                                                                                   |          5 |         33 |         11 |          8 |         52 |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                                                           | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\AbstractSyntaxTree.cs                                                | C#         |        158 |          5 |         16 |        179 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\AidScript.csproj                                                     | XML        |          8 |          0 |          3 |         11 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Executor.cs                                                          | C#         |        152 |          6 |         12 |        170 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\FileReader.cs                                                        | C#         |          8 |          0 |          2 |         10 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Heap.cs                                                              | C#         |         41 |          0 |          8 |         49 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Interpreter.cs                                                       | C#         |         13 |          1 |          2 |         16 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Lexer.cs                                                             | C#         |        160 |          1 |         18 |        179 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Parser.cs                                                            | C#         |        229 |         14 |         31 |        274 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Program.cs                                                           | C#         |         26 |          6 |          4 |         36 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\Token.cs                                                             | C#         |         25 |          2 |          5 |         32 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\bin\Debug\net8.0\AidScript.deps.json                                 | JSON       |         23 |          0 |          0 |         23 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\bin\Debug\net8.0\AidScript.runtimeconfig.json                        | JSON       |         12 |          0 |          0 |         12 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\AidScript.csproj.nuget.dgspec.json                               | JSON       |         69 |          0 |          0 |         69 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\AidScript.csproj.nuget.g.props                                   | XML        |         15 |          0 |          0 |         15 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\AidScript.csproj.nuget.g.targets                                 | XML        |          2 |          0 |          0 |          2 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\Debug\net8.0\.NETCoreApp,Version=v8.0.AssemblyAttributes.cs      | C#         |          3 |          1 |          1 |          5 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\Debug\net8.0\AidScript.AssemblyInfo.cs                           | C#         |          9 |          9 |          5 |         23 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\Debug\net8.0\AidScript.GeneratedMSBuildEditorConfig.editorconfig | Properties |         13 |          0 |          1 |         14 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\Debug\net8.0\AidScript.GlobalUsings.g.cs                         | C#         |          7 |          1 |          1 |          9 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\Debug\net8.0\AidScript.sourcelink.json                           | JSON       |          1 |          0 |          0 |          1 |
+| c:\Users\amp09\Desktop\AidScriptNew\AidScript\obj\project.assets.json                                              | JSON       |         74 |          0 |          0 |         74 |
+| Total                                                                                                              |            |      1,048 |         46 |        109 |      1,203 |
++--------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
