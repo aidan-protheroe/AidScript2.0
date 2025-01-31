@@ -1,3 +1,4 @@
+using System.Formats.Asn1;
 using System.Reflection;
 
 namespace AidScript;
@@ -13,7 +14,8 @@ public class Parser()
             var line = tokenLines[x];
             ast = ParseLine(line, ast);
         }
-        ast.SetIfElseEndPointers(); //put this method in this class
+
+        SetPointers(ast);
 
         return ast;
     }
@@ -34,6 +36,7 @@ public class Parser()
             }
             else if (line.tokens[i].Type == TokenType.Keyword)
             {
+                //I tried sturning this into a switch case and it overflowed? Can't figure out why
                 if (line.tokens[i].Value == "var")
                 {
                     ast.Add(new Initialization(BuildExpression(line.tokens.Skip(3).ToList()), line.tokens[i + 1]));
@@ -65,7 +68,7 @@ public class Parser()
         return ast;
     }
 
-    public Expression BuildExpression(List<Token> tokens) //change to build math expression(or not, it could just return x = "hello world". if it retruns x = 1 + "hello world" thats the interpreters problem)
+    public Expression BuildExpression(List<Token> tokens) //support string concatenation
     {
         var expression = new Expression();
         var levels = 0; //this should be useful later on for the interpreter
@@ -136,6 +139,53 @@ public class Parser()
         return method;
     }
 
+    public void SetPointers(AbstractSyntaxTree ast)
+    {
+        var statements = ast.GetAllStatements();
+        for (int i = 0; i < statements.Count; i++)
+        {
+            var (type, value) = statements[i];
+            if (type == StatementType.If)
+            {
+                var ifStatement = (If)value;
+                if (ifStatement.End == null)
+                {
+                    SetIfPointer(statements, i);
+                }
+            }
+        }
+    }
+
+    public int SetIfPointer(List<(StatementType type, object value)> statements, int x)
+    {
+        var ifStatement = (If)statements[x].value;
+        int i = x + 1;
+        while (i < statements.Count)
+        {
+            var (type, statement) = statements[i];
+            if (type == StatementType.If)
+            {
+                i = SetIfPointer(statements, i);
+            }
+            else if (type == StatementType.Else)
+            {
+                var elseStatement = (Else)statement;
+                elseStatement.If = ifStatement;
+                ifStatement.Else = elseStatement;
+            }
+            else if (type == StatementType.End)
+            {
+                ifStatement.End = (End)statement;
+                if (ifStatement.Else != null)
+                {
+                    ifStatement.Else.End = (End)statement;
+                }
+                return i;
+            }
+            i++;
+        }
+        return 0; //error
+    }
 }
 
 public class Expression

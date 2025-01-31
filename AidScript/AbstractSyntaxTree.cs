@@ -6,12 +6,12 @@ public class AbstractSyntaxTree
     public int CurrentGetStatement = 0;
 
     //have assignemnts, method, initilaztions, ifs, all inherit from a Statement class and keep one dict?
-    public Dictionary<int, Assignment> Assignments = new();
-    public Dictionary<int, Method> Methods = new();
-    public Dictionary<int, Initialization> Initializations = new();
-    public Dictionary<int, If> IfStatements = new();
-    public Dictionary<int, Else> ElseStatements = new();
-    public Dictionary<int, End> EndStatements = new();
+    public Dictionary<int, Assignment> Assignments = [];
+    public Dictionary<int, Method> Methods = [];
+    public Dictionary<int, Initialization> Initializations = [];
+    public Dictionary<int, If> IfStatements = [];
+    public Dictionary<int, Else> ElseStatements = [];
+    public Dictionary<int, End> EndStatements = [];
 
     public void Add(Assignment assignment)
     {
@@ -100,53 +100,6 @@ public class AbstractSyntaxTree
             }
         }
         return (StatementType.EndOfFile, 0);
-    }
-
-    public void SetIfElseEndPointers()
-    {
-        var statements = GetAllStatements();
-        for (int i = 0; i < statements.Count; i++)
-        {
-            var s = statements[i];
-            if (s.type == StatementType.If)
-            {
-                var ifStatement = (If)s.value;
-                if (ifStatement.End == null)
-                {
-                    FindIfPointer(statements, i);
-                }
-            }
-        }
-    }
-
-    public int FindIfPointer(List<(StatementType type, object value)> statements, int x)
-    {
-        var ifStatement = (If)statements[x].value;
-        int i = x + 1;
-        while (i < statements.Count)
-        {
-            var (type, statement) = statements[i];
-            if (type == StatementType.If)
-            {
-                i = FindIfPointer(statements, i);
-            }
-            else if (type == StatementType.Else)
-            {
-                ifStatement.Else = (Else)statement;
-                ifStatement.Else.If = ifStatement;
-            }
-            else if (type == StatementType.End)
-            {
-                ifStatement.End = (End)statement;
-                if (ifStatement.Else != null)
-                {
-                    ifStatement.Else.End = (End)statement;
-                }
-                return i;
-            }
-            i++;
-        }
-        return 0; //error
     }
 
     public List<(StatementType type, object value)> GetAllStatements()

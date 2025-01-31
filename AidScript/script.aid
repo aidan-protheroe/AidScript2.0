@@ -1,4 +1,4 @@
-var age = 20
+var age = 10
 
 if age > 20
     write 'Youre older than 20!'
