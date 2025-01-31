@@ -1,19 +1,9 @@
 namespace AidScript.Functions;
 
-public class Function
+public class Function(Token keyword)
 {
-    public Token Keyword;
+    public Token Keyword = keyword;
     public Argument Arg { get; set; }
-
-    public SystemFunction systemFunction;
-
-    public Function(Token keyword)
-    {
-        Keyword = keyword;
-        if (keyword.Value == "write") systemFunction = SystemFunction.Write;
-        else systemFunction = SystemFunction.None;
-    }
-
 
     public void BuildArg(Expression expression)
     {
@@ -26,9 +16,3 @@ public class Function
     }
 }
 
-public enum SystemFunction
-{
-    Write,
-    Input,
-    None
-}

@@ -1,5 +1,5 @@
-using AidScript.Statements;
 using AidScript.Functions;
+using AidScript.Statements;
 
 namespace AidScript;
 
@@ -24,7 +24,7 @@ public class Executor
                 var initialization = (Initialization)statement;
                 var value = Evaluate(initialization.Expression);
                 if (int.TryParse(value, out int intValue))
-                    _heap.AddValue(initialization.Identifier.Value, intValue); 
+                    _heap.AddValue(initialization.Identifier.Value, intValue);
                 else
                     _heap.AddValue(initialization.Identifier.Value, value);
             }
@@ -41,6 +41,7 @@ public class Executor
             }
             else if (type == StatementType.If)
             {
+               
                 var ifStatement = (If)statement;
                 if (Evaluate(ifStatement.Conditional) == "false")
                 {
@@ -58,14 +59,37 @@ public class Executor
             {
                 var elseStatement = (Else)statement;
                 if (elseStatement.If.Traversed) //shouldnt be nullable
-                    _ast.CurrentGetStatement = elseStatement.End.Line + 1;
+                    _ast.CurrentGetStatement = elseStatement.End.Line;
+                    elseStatement.If.Traversed = false;
+            }
+            else if (type == StatementType.While)
+            {
+                var whileStatement = (While)statement;
+                if (Evaluate(whileStatement.conditional) == "false")
+                    _ast.CurrentGetStatement = whileStatement.end.Line + 1;
+            }
+            else if (type == StatementType.End)
+            {
+                var endStatement = (End)statement;
+                if (endStatement.While != null)
+                {
+                    _ast.CurrentGetStatement = endStatement.While.line - 1;
+                }
             }
             else if (type == StatementType.Function)
             {
                 var method = (Function)statement;
                 if (method.Keyword.Value == "write")
                 {
-                    Console.WriteLine("Output:" + (method.Arg.Type == ArgumentType.Expression ? Evaluate(method.Arg.Expression) : Evaluate(method.Arg.Conditional)));
+                    //this would go in the function class, whatever the function returns or does
+                    Console.WriteLine(
+                        "Output:"
+                            + (
+                                method.Arg.Type == ArgumentType.Expression
+                                    ? Evaluate(method.Arg.Expression)
+                                    : Evaluate(method.Arg.Conditional)
+                            )
+                    );
                 }
             }
             (type, statement) = _ast.GetNextStatement(); //or ast.GetStatement(index)? for specific lines
@@ -96,11 +120,10 @@ public class Executor
         {
             return EvaluateMath(expression);
         }
-        else 
+        else
         {
-            return EvaluateString(expression); 
+            return EvaluateString(expression);
         }
-        return "";
     }
 
     public string EvaluateMath(Expression originalExpression) //returns a string, but if it returns a value that can be parsed to an int then store it in the heap as an int
@@ -142,7 +165,7 @@ public class Executor
         }
     }
 
-    public string EvaluateString(Expression originalExpression) 
+    public string EvaluateString(Expression originalExpression)
     {
         var expression = originalExpression;
 
@@ -213,8 +236,6 @@ public class Executor
 
     public string GetStringValue(Token token)
     {
-        return token.Type == TokenType.Identifier
-            ? _heap.GetValue(token.Value)
-            : token.Value;
+        return token.Type == TokenType.Identifier ? _heap.GetValue(token.Value) : token.Value;
     }
 }

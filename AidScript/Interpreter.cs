@@ -22,5 +22,5 @@ public class Interpreter
 //comments and inline comments
 
 //add a base statement that all statements inherit from
-//methods are not statements -- make a seperate folder and namespace for them
-//add an enum for system functions(write)
+
+//Store system function info (what arguments it can take, what it returns or performs)

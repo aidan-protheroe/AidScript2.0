@@ -15,6 +15,7 @@ public class AbstractSyntaxTree
     public Dictionary<int, If> IfStatements = [];
     public Dictionary<int, Else> ElseStatements = [];
     public Dictionary<int, End> EndStatements = [];
+    public Dictionary<int, While> WhileStatements = [];
 
     public void Add(Assignment assignment)
     {
@@ -49,6 +50,12 @@ public class AbstractSyntaxTree
     public void Add(End endStatement)
     {
         EndStatements.Add(CurrentSetStatement, endStatement);
+        CurrentSetStatement++;
+    }
+
+    public void Add(While whileStatement)
+    {
+        WhileStatements.Add(CurrentSetStatement, whileStatement);
         CurrentSetStatement++;
     }
 
@@ -102,6 +109,14 @@ public class AbstractSyntaxTree
                 return (StatementType.End, e.Value);
             }
         }
+        foreach (var w in WhileStatements)
+        {
+            if (w.Key == CurrentGetStatement)
+            {
+                CurrentGetStatement++;
+                return (StatementType.While, w.Value);
+            }
+        }
         return (StatementType.EndOfFile, 0);
     }
 
@@ -133,7 +148,6 @@ public enum StatementType
     While,
     Else,
     End,
-    Write,
     EndOfFile,
 }
 

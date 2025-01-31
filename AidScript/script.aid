@@ -1,12 +1,11 @@
 var age = 10
 
-if age > 20
-    write 'Youre older than 20!'
-else
-    if age == 20
-        write 'Youre 20!'
+while age < 14
+    if age < 12
+        age = age + 2
     else
-        write 'Youre younger than 20!'
+        age = age + 1
     end
+    write age
 end
 

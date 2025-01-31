@@ -1,5 +1,5 @@
-using AidScript.Statements;
 using AidScript.Functions;
+using AidScript.Statements;
 
 namespace AidScript;
 
@@ -10,8 +10,7 @@ public class Parser()
         var ast = new AbstractSyntaxTree();
         for (int x = 0; x < tokenLines.Count; x++)
         {
-            var line = tokenLines[x];
-            ast = ParseLine(line, ast);
+            ast = ParseLine(tokenLines[x], ast);
         }
 
         SetPointers(ast);
@@ -62,6 +61,11 @@ public class Parser()
                 else if (line.tokens[i].Value == "end")
                 {
                     ast.Add(new End(line.number));
+                    break;
+                }
+                else if (line.tokens[i].Value == "while")
+                {
+                    ast.Add(new While(BuildConditional(line.tokens.Skip(1).ToList()), line.number));
                     break;
                 }
                 else
@@ -160,6 +164,14 @@ public class Parser()
                     SetIfPointer(statements, i);
                 }
             }
+            else if (type == StatementType.While)
+            {
+                var whileStatement = (While)value;
+                if (whileStatement.end == null)
+                {
+                    SetWhilePointer(statements, i);
+                }
+            }
         }
     }
 
@@ -173,6 +185,10 @@ public class Parser()
             if (type == StatementType.If)
             {
                 i = SetIfPointer(statements, i);
+            }
+            else if (type == StatementType.While)
+            {
+                i = SetWhilePointer(statements, i);
             }
             else if (type == StatementType.Else)
             {
@@ -193,15 +209,40 @@ public class Parser()
         }
         return 0; //error
     }
+
+    public int SetWhilePointer(List<(StatementType type, object value)> statements, int x)
+    {
+        var whileStatement = (While)statements[x].value;
+        int i = x + 1;
+        while (i < statements.Count)
+        {
+            var (type, statement) = statements[i];
+            if (type == StatementType.If)
+            {
+                i = SetIfPointer(statements, i);
+            }
+            else if (type == StatementType.While)
+            {
+                i = SetWhilePointer(statements, i);
+            }
+            else if (type == StatementType.End)
+            {
+                whileStatement.end = (End)statement;
+                whileStatement.end.While = whileStatement;
+                return i;
+            }
+            i++;
+        }
+        return 0; //error
+    }
+}
+
+public class While(Conditional conditional, int line)
+{
+    public Conditional conditional = conditional;
+    public End end;
+    public int line = line;
 }
 
 
-
-
-
-//add initialize that works generally the same as assignment but must be used for first time initialization of a indentifier
-
-
 //adding ands and ors to conditional will make it a lot more complex
-
-//if you wanna use var to declare var inits, you need to make it so a method can take an assignment as a parameter(and create a build assigment method)

@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("AidScript")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9068da10a3e07958ac2e5ebebc44b9075cebc607")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+637f710a7bfae2bf8fc5829b8b799b7d20efcd37")]
 [assembly: System.Reflection.AssemblyProductAttribute("AidScript")]
 [assembly: System.Reflection.AssemblyTitleAttribute("AidScript")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
