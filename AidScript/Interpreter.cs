@@ -6,8 +6,8 @@ public class Interpreter
     {
         var lexer = new Lexer();
         var tokens = lexer.Tokenize(rawInput);
-        var parser = new Parser(tokens);
-        var ast = parser.Parse();
+        var parser = new Parser();
+        var ast = parser.Parse(tokens);
         var executor = new Executor(ast, new Heap());
         executor.Execute();
     }

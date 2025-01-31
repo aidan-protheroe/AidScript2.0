@@ -2,90 +2,91 @@ namespace AidScript;
 
 public class Lexer
 {
-    private readonly List<List<Token>> _tokenLines = [];
-    private List<Token> _tokens = [];
+    private readonly List<Line> _tokenLines = [];
 
     //testing only
     private string _input = "";
 
     public Lexer() { }
 
-    public List<List<Token>> Tokenize() //for testing internal input
+    public List<Line> Tokenize() //for testing internal input
     {
         return Tokenize(_input);
     }
 
-    public List<List<Token>> Tokenize(string input)
+    public List<Line> Tokenize(string input)
     {
-        var lines = input.Split('\n');
+        var rawLines = input.Split('\n');
 
-        string value;
-        TokenType type;
-
-        foreach (var line in lines)
+        for (int i = 0 ; i < rawLines.Length; i++)
         {
-            int i = 0;
-            while (i < line.Length)
-            {
-                value = "";
-                type = TokenType.Unassigned;
-
-                if (char.IsNumber(line[i])) //for numbers
-                {
-                    (value, i) = BuildNumber(line, i);
-                    type = TokenType.Number;
-                }
-                else if (char.IsLetter(line[i])) //for any indenifier, checks for keywords first and then just assumes variable name
-                {
-                    (value, i) = BuildIdentifier(line, i);
-                    if (ReservedTokens.keywords.Contains(value))
-                        type = TokenType.Keyword;
-                    else
-                        type = TokenType.Identifier;
-                }
-                else if (char.IsWhiteSpace(line[i])) //skip whitespace
-                {
-                    i++;
-                }
-                else if (line[i] == '\'') //for strings
-                {
-                    (value, i) = BuildString(line, i);
-                    type = TokenType.String;
-                }
-                else
-                { //this must be simplified
-                    foreach (KeyValuePair<TokenType, List<string>> kvp in ReservedTokens.operatorTokens)
-                    {
-                        if (kvp.Value.Contains(line[i].ToString() + line[i + 1].ToString()))
-                        {
-                            value = line[i].ToString() + line[i + 1].ToString();
-                            type = kvp.Key;
-                            i += 2;
-                        }
-                    }
-
-                    foreach (
-                        KeyValuePair<TokenType, List<string>> kvp in ReservedTokens.operatorTokens
-                    )
-                    {
-                        if (kvp.Value.Contains(line[i].ToString()))
-                        {
-                            value = line[i].ToString();
-                            type = kvp.Key;
-                            i++;
-                        }
-                    }
-                }
-
-                if (type != TokenType.Unassigned)
-                {
-                    _tokens.Add(new Token(value, type));
-                }
-            }
-            _tokenLines.Add(_tokens);
-            _tokens = [];
+            var rawLine = rawLines[i];
+            var line = TokenizeLine(rawLine, i);
+            _tokenLines.Add(line);
         }
         return _tokenLines;
+    }
+
+    public Line TokenizeLine(string rawLine, int lineNumber)
+    {
+        List<Token> tokens = [];
+        int i = 0;
+        while (i < rawLine.Length)
+        {
+            var value = "";
+            var type = TokenType.Unassigned;
+
+            if (char.IsNumber(rawLine[i])) //for numbers
+            {
+                (value, i) = BuildNumber(rawLine, i);
+                type = TokenType.Number;
+            }
+            else if (char.IsLetter(rawLine[i])) //for any indenifier, checks for keywords first and then just assumes variable name
+            {
+                (value, i) = BuildIdentifier(rawLine, i);
+                if (ReservedTokens.keywords.Contains(value))
+                    type = TokenType.Keyword;
+                else
+                    type = TokenType.Identifier;
+            }
+            else if (char.IsWhiteSpace(rawLine[i])) //skip whitespace
+            {
+                i++;
+            }
+            else if (rawLine[i] == '\'') //for strings
+            {
+                (value, i) = BuildString(rawLine, i);
+                type = TokenType.String;
+            }
+            else
+            { 
+                foreach (KeyValuePair<TokenType, List<string>> kvp in ReservedTokens.operatorTokens) //check for double char token
+                {
+                    if (kvp.Value.Contains(rawLine[i].ToString() + rawLine[i + 1].ToString()))
+                    {
+                        value = rawLine[i].ToString() + rawLine[i + 1].ToString();
+                        type = kvp.Key;
+                        i += 2;
+                    }
+                }
+
+                foreach (KeyValuePair<TokenType, List<string>> kvp in ReservedTokens.operatorTokens) //check for single char token
+                {
+                    if (kvp.Value.Contains(rawLine[i].ToString()))
+                    {
+                        value = rawLine[i].ToString();
+                        type = kvp.Key;
+                        i++;
+                    }
+                }
+            }
+
+            if (type != TokenType.Unassigned)
+            {
+                tokens.Add(new Token(value, type));
+            }
+        }
+        return new Line(tokens, lineNumber);
     }
 
     private static (string, int) BuildNumber(string input, int index)
@@ -174,4 +175,10 @@ public static class ReservedTokens //reserved values?
         { TokenType.AssignmentOperator, assignmentOperators },
         { TokenType.ArithmeticOperator, arithmeticOperators },
     };
+}
+
+public class Line(List<Token> tokens, int lineNumber)
+{
+    public List<Token> tokens = tokens;
+    public int number = lineNumber;
 }

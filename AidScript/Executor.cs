@@ -22,7 +22,7 @@ public class Executor
                 var value = Evaluate(initialization.Expression);
                 if (int.TryParse(value, out int intValue))
                 {
-                    _heap.AddValue(initialization.Identifier.Value, intValue); //for now just use addvalue, but when adding var keyword use addvalue
+                    _heap.AddValue(initialization.Identifier.Value, intValue); 
                     //Console.WriteLine(_heap.GetValue(initialization.Identifier.Value));
                 }
                 else
@@ -59,7 +59,7 @@ public class Executor
                     }
                     else
                     {
-                        _ast.CurrentGetStatement = ifStatement.Else.StartLine;
+                        _ast.CurrentGetStatement = ifStatement.Else.Line;
                     }
                 }
                 else

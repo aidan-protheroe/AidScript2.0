@@ -133,7 +133,6 @@ public class AbstractSyntaxTree
             else if (type == StatementType.Else)
             {
                 ifStatement.Else = (Else)statement;
-                ifStatement.Else.conditional = ifStatement.Conditional;
                 ifStatement.Else.If = ifStatement;
             }
             else if (type == StatementType.End)

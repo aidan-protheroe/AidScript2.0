@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\amp09\\Desktop\\AidScriptNew\\AidScript\\AidScript.csproj",
+      "projectUniqueName": "C:\\Users\\amp09\\Desktop\\AidScript2.0\\AidScript\\AidScript.csproj",
       "projectName": "AidScript",
-      "projectPath": "C:\\Users\\amp09\\Desktop\\AidScriptNew\\AidScript\\AidScript.csproj",
+      "projectPath": "C:\\Users\\amp09\\Desktop\\AidScript2.0\\AidScript\\AidScript.csproj",
       "packagesPath": "C:\\Users\\amp09\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\amp09\\Desktop\\AidScriptNew\\AidScript\\obj\\",
+      "outputPath": "C:\\Users\\amp09\\Desktop\\AidScript2.0\\AidScript\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\amp09\\AppData\\Roaming\\NuGet\\NuGet.Config",
