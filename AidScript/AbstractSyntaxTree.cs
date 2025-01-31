@@ -1,3 +1,6 @@
+using AidScript.Statements;
+using AidScript.Functions;
+
 namespace AidScript;
 
 public class AbstractSyntaxTree
@@ -7,7 +10,7 @@ public class AbstractSyntaxTree
 
     //have assignemnts, method, initilaztions, ifs, all inherit from a Statement class and keep one dict?
     public Dictionary<int, Assignment> Assignments = [];
-    public Dictionary<int, Method> Methods = [];
+    public Dictionary<int, Function> Functions = [];
     public Dictionary<int, Initialization> Initializations = [];
     public Dictionary<int, If> IfStatements = [];
     public Dictionary<int, Else> ElseStatements = [];
@@ -19,9 +22,9 @@ public class AbstractSyntaxTree
         CurrentSetStatement++;
     }
 
-    public void Add(Method method)
+    public void Add(Function function)
     {
-        Methods.Add(CurrentSetStatement, method);
+        Functions.Add(CurrentSetStatement, function);
         CurrentSetStatement++;
     }
 
@@ -59,12 +62,12 @@ public class AbstractSyntaxTree
                 return (StatementType.Assignment, a.Value);
             }
         }
-        foreach (var m in Methods)
+        foreach (var m in Functions)
         {
             if (m.Key == CurrentGetStatement)
             {
                 CurrentGetStatement++;
-                return (StatementType.Method, m.Value);
+                return (StatementType.Function, m.Value);
             }
         }
         foreach (var i in Initializations)
@@ -125,7 +128,7 @@ public enum StatementType
 {
     Initialization,
     Assignment,
-    Method,
+    Function,
     If,
     While,
     Else,

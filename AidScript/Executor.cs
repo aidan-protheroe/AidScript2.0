@@ -1,3 +1,6 @@
+using AidScript.Statements;
+using AidScript.Functions;
+
 namespace AidScript;
 
 public class Executor
@@ -57,9 +60,9 @@ public class Executor
                 if (elseStatement.If.Traversed) //shouldnt be nullable
                     _ast.CurrentGetStatement = elseStatement.End.Line + 1;
             }
-            else if (type == StatementType.Method)
+            else if (type == StatementType.Function)
             {
-                var method = (Method)statement;
+                var method = (Function)statement;
                 if (method.Keyword.Value == "write")
                 {
                     Console.WriteLine("Output:" + (method.Arg.Type == ArgumentType.Expression ? Evaluate(method.Arg.Expression) : Evaluate(method.Arg.Conditional)));
@@ -215,5 +218,3 @@ public class Executor
             : token.Value;
     }
 }
-
-//simplify monomial expressions

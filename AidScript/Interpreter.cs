@@ -13,4 +13,14 @@ public class Interpreter
     }
 }
 
+
+//biggest todos:
+//while loops
+//user input
+//random number generator
+//order of operations
 //comments and inline comments
+
+//add a base statement that all statements inherit from
+//methods are not statements -- make a seperate folder and namespace for them
+//add an enum for system functions(write)

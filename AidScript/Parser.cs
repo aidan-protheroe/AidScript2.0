@@ -1,8 +1,10 @@
+using AidScript.Statements;
+using AidScript.Functions;
+
 namespace AidScript;
 
 public class Parser()
 {
-
     public AbstractSyntaxTree Parse(List<Line> tokenLines) //this should take in the tokenLines
     {
         var ast = new AbstractSyntaxTree();
@@ -27,7 +29,10 @@ public class Parser()
                 && line.tokens[i + 1].Type == TokenType.AssignmentOperator //must differientate string operations and arithmetic ones(or have the interpreter do that actually?)
             )
             {
-                var assignment = new Assignment(BuildExpression(line.tokens.Skip(2).ToList()), line.tokens[i]);
+                var assignment = new Assignment(
+                    BuildExpression(line.tokens.Skip(2).ToList()),
+                    line.tokens[i]
+                );
                 ast.Add(assignment);
                 break;
             }
@@ -36,7 +41,12 @@ public class Parser()
                 //I tried sturning this into a switch case and it overflowed? Can't figure out why
                 if (line.tokens[i].Value == "var")
                 {
-                    ast.Add(new Initialization(BuildExpression(line.tokens.Skip(3).ToList()), line.tokens[i + 1]));
+                    ast.Add(
+                        new Initialization(
+                            BuildExpression(line.tokens.Skip(3).ToList()),
+                            line.tokens[i + 1]
+                        )
+                    );
                     break;
                 }
                 else if (line.tokens[i].Value == "if")
@@ -56,7 +66,7 @@ public class Parser()
                 }
                 else
                 {
-                    ast.Add(BuildMethod(line.tokens));
+                    ast.Add(BuildFunction(line.tokens));
                     break;
                 }
             }
@@ -70,7 +80,7 @@ public class Parser()
         var expression = new Expression();
         var levels = 0; //this should be useful later on for the interpreter
 
-        while (tokens.Count > 0) 
+        while (tokens.Count > 0)
         {
             if (
                 tokens[0].Type == TokenType.Number
@@ -118,22 +128,22 @@ public class Parser()
         return conditional;
     }
 
-    public Method BuildMethod(List<Token> tokens) //change to function
+    public Function BuildFunction(List<Token> tokens) //change to function
     {
-        var method = new Method(tokens[0]);
+        var function = new Function(tokens[0]);
         int x = 0;
         while (x < tokens.Count) //check for conditionals first because they contain expressions
         {
             if (tokens[x].Type == TokenType.ComparativeOperator)
             {
-                method.BuildArg(BuildConditional(tokens.Skip(1).ToList()));
-                return method;
+                function.BuildArg(BuildConditional(tokens.Skip(1).ToList()));
+                return function;
             }
             x++;
         }
 
-        method.BuildArg(BuildExpression(tokens.Skip(1).ToList()));
-        return method;
+        function.BuildArg(BuildExpression(tokens.Skip(1).ToList()));
+        return function;
     }
 
     public void SetPointers(AbstractSyntaxTree ast)
@@ -185,84 +195,11 @@ public class Parser()
     }
 }
 
-public class Expression
-{
-    public Token operatorToken = null;
-    public List<Token> operands = [];
-    public Expression expression = null;
-    public int Levels { get; set; }
-}
 
-public class Conditional
-{
-    public Expression leftExpression = new Expression();
-    public Expression rightExpression = new Expression();
-    public Token comparativeToken { get; set; }
-}
 
-public class Assignment(Expression expression, Token identifier)
-{
-    public Token Identifier = identifier;
-    public Expression Expression = expression;
-}
 
-public class Initialization(Expression expression, Token identifier)
-{
-    public Token Identifier = identifier;
-    public Expression Expression = expression;
-}
 
 //add initialize that works generally the same as assignment but must be used for first time initialization of a indentifier
-
-public class Method(Token keyword)
-{
-    public Token Keyword = keyword;
-    public Argument Arg { get; set; }
-
-    public void BuildArg(Expression expression)
-    {
-        Arg = new Argument(ArgumentType.Expression, expr: expression);
-    }
-
-    public void BuildArg(Conditional conditional)
-    {
-        Arg = new Argument(ArgumentType.Conditional, cond: conditional);
-    }
-}
-
-public class If(Conditional conditional)
-{
-    public Conditional Conditional = conditional;
-    public Else Else = null;
-    public End End = null;
-    public bool Traversed = false; // I added this bc I wasnt sure was was causing problems but I dont think its needed now
-}
-
-public class End(int line)
-{
-    public int Line = line;
-    public bool set = false;
-}
-
-public class Else(int line)
-{
-    public int Line = line;
-    public End? End = null; //this shouldn't be nullable, it is required
-    public If? If = null; //you only need this or the conditional not both --actually since it uses If.Travertsed now you really don't need eitehr
-}
-
-public class Argument(ArgumentType type, Expression? expr = null, Conditional? cond = null)
-{
-    public Expression? Expression = expr;
-    public Conditional? Conditional = cond;
-    public ArgumentType Type = type;
-}
-
-public enum ArgumentType
-{
-    Expression,
-    Conditional,
-}
 
 
 //adding ands and ors to conditional will make it a lot more complex
